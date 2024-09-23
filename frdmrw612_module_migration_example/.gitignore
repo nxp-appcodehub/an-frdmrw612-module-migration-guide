@@ -1,0 +1,10 @@
+/Debug/
+/Release/
+
+!/Debug/frdmrw612_hello_world_2_16_0_Debug_library.ld
+!/Debug/frdmrw612_hello_world_2_16_0_Debug_memory.ld
+!/Debug/frdmrw612_hello_world_2_16_0_Debug.ld
+
+!/Release/frdmrw612_hello_world_2_16_0_Release_library.ld
+!/Release/frdmrw612_hello_world_2_16_0_Release_memory.ld
+!/Release/frdmrw612_hello_world_2_16_0_Release.ld

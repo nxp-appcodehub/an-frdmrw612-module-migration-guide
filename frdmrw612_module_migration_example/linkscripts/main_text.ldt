@@ -1,0 +1,9 @@
+        *(EXCLUDE_FILE(
+        	*mflash_drv_W25Q512JVFIQ.o 
+        	*mflash_drv_FM25M64C_13IBE.o
+        	*mflash_drv_FM25M4AA_1AIBD.o
+        	*mflash_drv_MX25U6432FBBI02.o
+        	*mflash_drv_MX25U51245GZ4I00.o
+        	*mflash_drv_W25Q128JWYIQ.o 
+        	*fsl_flexspi.o
+        ) .text*)

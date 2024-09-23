@@ -1,0 +1,23 @@
+<data:item xmlns:data="data" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="data ../../xsd/alp.xsd" type="app_note" format="projectfile" versionSchema="1.0.0" name="FRDMRW612 module migration guide" uuid="b79e97bc-c33c-42c0-b1a1-273e485409a2">
+    <display_title>
+        Migration guide from FRDM-RW612 to third-party module memories
+    </display_title>
+    <overview>
+        <![CDATA[The objective of this application note is to help developers migrating their applications from the RW612-FRDM board to their module-based board. <br />This application note contains: <br /><ul><li>An overview of what does imply to move your application to a different board with different Flash and pSRAM.</li><li>Flash configuration files (flash_config.c) for each supported module.</li><li>Application Flash and pSRAM configurations for each supported module.</li></ul>]]>
+    </overview>
+    <toolchains>
+        <toolchain name="mcux"></toolchain>
+    </toolchains>
+    <families>
+        <family name="rw"></family>
+    </families>
+    <nxp_compatible_hw>
+        <hw id="FRDM-RW612"></hw>
+    </nxp_compatible_hw>
+    <peripherals>
+        <peripheral name="flash"></peripheral>
+    </peripherals>
+    <categories>
+        <category name="memory"></category>
+    </categories>
+</data:item>
