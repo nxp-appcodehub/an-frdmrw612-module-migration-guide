@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2022-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 #ifndef COMPILER_TOOLCHAIN_H_
@@ -17,10 +17,10 @@
 /* for armclang */
 #if defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)
     #define CSS_IDATA_SEGMENT __attribute__((section("CSS_IDATA_SEGMENT")))
-    #define CSS_CONST_SEGMENT __attribute__((section("CSS_CONST_SEGMENT_SECTION")))
+    #define CSS_CONST_SEGMENT __attribute__((section("CSS_CONST_SEGMENT")))
     #define MCUX_FUP_ATTRIBUTE __attribute__((aligned(4))) __attribute__((section("MCUX_OBFUSCATED_FUP_SEGMENT")))
     #define UNUSED_PARAM __attribute__((unused))
-    /*
+    /*  
         Use of UNALIGNED on ARMCLANG
 
         The __unaligned keyword is a type qualifier that tells the compiler to treat the pointer or variable as an unaligned pointer or variable.
@@ -36,7 +36,7 @@
     #define UNALIGNED __unaligned
     #define MCUX_CSSL_UNUSED(p) ((void) (p))
     /* Macro for alligning buffers to cpu word */
-    #define ALIGNED __attribute__((aligned(4)))
+    #define ALIGNED __attribute__((aligned(4))) 
 
 /* using the gcc toolchain file for both gcc and armgcc */
 #elif defined ( __GNUC__ )
@@ -46,7 +46,7 @@
     #define UNUSED_PARAM __attribute__((unused))
     #define UNALIGNED
     /* Macro for alligning buffers to cpu word */
-    #define ALIGNED __attribute__((aligned(4)))
+    #define ALIGNED __attribute__((aligned(4))) 
 
 /* for armcc compiler */
 #elif defined ( __CC_ARM )
@@ -56,7 +56,7 @@
     #define UNUSED_PARAM __attribute__((unused))
     #define UNALIGNED __packed
     /* Macro for alligning buffers to cpu word */
-    #define ALIGNED __attribute__((aligned(4)))
+    #define ALIGNED __attribute__((aligned(4))) 
 
 /* for ghs compiler */
 #elif defined ( __ghs__ )
@@ -66,7 +66,7 @@
     #define UNUSED_PARAM __attribute__((unused))
     #define UNALIGNED
     /* Macro for alligning buffers to cpu word */
-    #define ALIGNED __attribute__((aligned(4)))
+    #define ALIGNED __attribute__((aligned(4))) 
 
 /* for iar compiler */
 #elif defined ( __ICCARM__ )
@@ -76,7 +76,7 @@
     #define UNUSED_PARAM __attribute__((unused))
     #define UNALIGNED __packed
     /* Macro for alligning buffers to cpu word */
-    #define ALIGNED __attribute__((aligned(4)))
+    #define ALIGNED __attribute__((aligned(4))) 
 
 /* for llvm */
 #elif defined ( __clang__ )
@@ -86,8 +86,8 @@
     #define UNUSED_PARAM __attribute__((unused))
     #define UNALIGNED
     /* Macro for alligning buffers to cpu word */
-    #define ALIGNED __attribute__((aligned(4)))
-
+    #define ALIGNED __attribute__((aligned(4))) 
+    
 
 #endif
 

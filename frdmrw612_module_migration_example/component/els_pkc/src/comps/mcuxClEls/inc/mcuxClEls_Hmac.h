@@ -1,20 +1,20 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
  * @file  mcuxClEls_Hmac.h
  * @brief ELS header for HMAC support.
- *
+ * 
  * This header exposes functions that enable using the ELS for the generation of hashed-key message authentication
  * codes (HMAC).
  * The supported hash algorithm is SHA2-256.
@@ -74,7 +74,7 @@ extern "C" {
  */
 /**
  * @brief Command option bit field for #mcuxClEls_Hmac_Async.
- *
+ * 
  * Valid option values can be found under @ref MCUXCLELS_HMAC_EXTERNAL_KEY_.
  */
 typedef union
@@ -105,11 +105,11 @@ typedef union
  */
 /**
  * @brief Performs HMAC with SHA-256.
- *
+ * 
  * @if MCUXCL_FEATURE_ELS_SHA_DIRECT
  * It must be ensured that SHA-Direct mode is disabled when calling this function (see #mcuxClEls_ShaDirect_Disable).
  * @endif
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]      options     The command options. For more information, see #mcuxClEls_HmacOption_t.
@@ -118,7 +118,7 @@ typedef union
  * @param[in]      pInput      Pointer to a memory location which contains the data to be authenticated
  * @param[in]      inputLength Size of @p pInput in bytes
  * @param    [out] pOutput     The output message authentication code
- *
+ * 
  * The properties of some parameters change with respect to selected options.
  *
  * <dl>
@@ -127,20 +127,20 @@ typedef union
  *  <dd><dl>
  *      <dt>@p options.extkey == #MCUXCLELS_HMAC_EXTERNAL_KEY_ENABLE</dt>
  *          <dd>@p keyIdx is ignored.
- *
+ * 
  *          @p pPaddedKey must contain the padded HMAC key, which can mean one of two things depending on the length of the original HMAC key, L<sub>kHMAC</sub>:
  *          <ul><li>If L<sub>kHMAC</sub> &le; #MCUXCLELS_HMAC_PADDED_KEY_SIZE, @p pPaddedKey must be the HMAC key padded with zero-bytes to fill the required length of #MCUXCLELS_HMAC_PADDED_KEY_SIZE bytes.</li>
- *
+ * 
  *          <li>If L<sub>kHMAC</sub> &gt; #MCUXCLELS_HMAC_PADDED_KEY_SIZE, @p pPaddedKey must contain the SHA-256 hash of the HMAC key, padded with zero-bytes to fill the required length of #MCUXCLELS_HMAC_PADDED_KEY_SIZE bytes.</li></ul></dd>
- *
+ * 
  *      <dt>@p options.extkey == #MCUXCLELS_HMAC_EXTERNAL_KEY_DISABLE</dt>
  *          <dd>@p keyIdx must be a valid key index with the correct usage rights for HMAC.
- *
+ * 
  *          @p pPaddedKey is ignored.</dd>
  *
  *  </dl></dd>
  * </dl>
- *
+ * 
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)
  *  @return A code-flow protected error code (see @ref mcuxCsslFlowProtection). The error code can be any error code in @ref MCUXCLELS_STATUS_, see individual documentation for more information
  * @else
@@ -165,6 +165,6 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Hmac_Asy
 #endif /* MCUXCLELS_HMAC_H_ */
 /**
  * @}
- *
+ * 
  * @}
  */

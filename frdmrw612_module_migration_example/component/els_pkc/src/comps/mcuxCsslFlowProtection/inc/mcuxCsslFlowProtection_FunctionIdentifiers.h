@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -41,20 +41,20 @@
 #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Copy                (0x7D21u)
 #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Clear               (0x42D7u)
 #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Set                 (0x44F9u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureClear         (0x29BCu)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureCopy          (0x27AAu)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureSet           (0x5B58u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureCompare       (0x79C2u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_DPASecureCompare    (0x5AF0u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_DPASecComp      (0x629Du)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_CopyPow2        (0x53C3u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_CopyWords       (0x3761u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecCopyPow2     (0x4A5Du)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecComp         (0x187Eu)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecClear        (0x2C3Bu)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecSet          (0x6655u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureXOR           (0x3366u)
-#define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureXORWithConst  (0x4A97u)
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureClear         (0x29BCu) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureCopy          (0x27AAu) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureSet           (0x5B58u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureCompare       (0x79C2u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_DPASecureCompare    (0x5AF0u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_DPASecComp      (0x629Du) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_CopyPow2        (0x53C3u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_CopyWords       (0x3761u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecCopyPow2     (0x4A5Du) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecComp         (0x187Eu) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecClear        (0x2C3Bu) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_Int_SecSet          (0x6655u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureXOR           (0x3366u) // No longer used
+// #define MCUX_CSSL_FP_FUNCID_mcuxCsslMemory_SecureXORWithConst  (0x4A97u) // No longer used
 #define MCUX_CSSL_FP_FUNCID_mcuxCssl_unused_14                 (0x17C5u)
 #define MCUX_CSSL_FP_FUNCID_mcuxCssl_unused_15                 (0x1E8Eu)
 #define MCUX_CSSL_FP_FUNCID_mcuxCssl_unused_16                 (0x26A7u)

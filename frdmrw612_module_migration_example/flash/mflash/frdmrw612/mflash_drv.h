@@ -1,5 +1,5 @@
 /*
- * Copyright 2017-2024 NXP
+ * Copyright 2017-2025 NXP
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -44,7 +44,7 @@
 
 #define FLASH_SIZE 0x01000000U
 
-#elif (BOARD_FLASH == MX25U6432FBBI02) || (BOARD_FLASH == FM25M64C_13IBE)
+#elif (BOARD_FLASH == MX25U6432FBBI02) || (BOARD_FLASH == FM25M64C_13IBE) || (BOARD_FLASH == W25Q64JVZPIQ)
 
 /* Flash constants */
 #ifndef MFLASH_SECTOR_SIZE

@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -129,7 +129,7 @@ extern "C" {
 /**
  * @brief Command option bit field for #mcuxClEls_KeyImport_Async
  *
- * Bit field to configure #mcuxClEls_KeyImport_Async.
+ * Bit field to configure #mcuxClEls_KeyImport_Async. 
  * See @ref MCUXCLELS_KEYIMPORT_KFMT_ for possible options in case the struct is accessed bit-wise.
  * See @ref MCUXCLELS_KEYIMPORT_VALUE_KFMT_ for possible options in case the struct is accessed word-wise.
  */
@@ -163,9 +163,9 @@ typedef union
  * @{
  */
 
-/**
+/** 
  * @brief Deletes a key from keystore at the given index.
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  *
  * Call #mcuxClEls_WaitForOperation to complete the operation.
@@ -189,7 +189,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_KeyDelet
 
 
 /** @brief Imports a key from external storage to an internal key register.
- *
+ * 
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif
@@ -236,7 +236,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_KeyImpor
 #ifdef MCUXCL_FEATURE_ELS_PUK_INTERNAL
 /** @brief Imports a public key to an internal key register if the signature verification of the provided public key against
  *         the provided signature is correct.
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]    pCertificate       Pointer to the Certificate structure
@@ -266,12 +266,12 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_KeyImpor
     mcuxClEls_KeyIndex_t verifyingKeyIdx,
     mcuxClEls_KeyProp_t keyProperties,
     mcuxClEls_KeyIndex_t targetKeyIdx,
-    uint8_t * pOutput
+    uint8_t * pOutput	
     );
 #endif /* MCUXCL_FEATURE_ELS_PUK_INTERNAL */
 
 /** @brief Exports a key from an internal key register to external storage, using a wrapping key.
- *
+ * 
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif

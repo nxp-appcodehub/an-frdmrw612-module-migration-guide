@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -17,8 +17,8 @@
  *
  * This header exposes functions that enable using the ELS for symmetric encryption/decryption.
  * The cipher algorithm supported by ELS is AES in the following modes:
- * - Electronic Code Book (ECB) mode,
- * - Cipher Block Chaining (CBC) mode, and
+ * - Electronic Code Book (ECB) mode, 
+ * - Cipher Block Chaining (CBC) mode, and 
  * - Counter (CTR) mode.
  * Supported key sizes are 128, 192, and 256 bits.
  */
@@ -155,7 +155,7 @@ typedef union
 
  /**
  * @brief Performs AES encryption/decryption.
- *
+ * 
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif

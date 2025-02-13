@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2021-2022 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -24,7 +24,7 @@
 #include <stdbool.h>
 
 
-#if defined(__ghs__) || defined( __ICCARM__ ) || (defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)) || defined(__GNUC__)
+#if defined(__ghs__) || defined( __ICCARM__ ) || (defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)) || (defined(__GNUC__) && defined(__arm__))
 
 
 #define MCUXCSSLMEMORY_COMPARE_ASM_COMPARISON(retval_, cur_lhs_, cur_rhs_, nwords_, cnt_, notValid_, result_) \
@@ -133,7 +133,7 @@ mcuxCsslMemory_Compare_fault:  \
  * this sequence of instructions will turn retval to zero completely.
  * If retval is 0xFFFFFFFF, it will remain untouched.
  */
-#if defined(__ghs__) || defined( __ICCARM__ ) || (defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)) || defined(__GNUC__)
+#if defined(__ghs__) || defined( __ICCARM__ ) || (defined (__ARMCC_VERSION) && (__ARMCC_VERSION >= 6010050)) || (defined(__GNUC__) && defined(__arm__))
 #define MCUXCSSLMEMORY_COMPARE_ASM_CALC_RETVAL(retval_, errCode_)  \
 do{  \
     __asm volatile (  \

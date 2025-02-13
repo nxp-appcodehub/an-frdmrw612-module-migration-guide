@@ -1,7 +1,7 @@
 /*
 ** ###################################################################
 **     Version:             rev. 1.0, 2021-03-16
-**     Build:               b240325
+**     Build:               b241030
 **
 **     Abstract:
 **         Chip specific module features.
@@ -329,6 +329,10 @@
 #define FSL_FEATURE_FLEXSPI_SUPPORT_RXCLKSRC_DIFF (1)
 /* @brief FlexSPI AHB RX buffer size (byte) */
 #define FSL_FEATURE_FLEXSPI_AHB_RX_BUFFER_SIZEn(x) (2048)
+/* @brief FlexSPI IPED REGION COUNT */
+#define FSL_FEATURE_FLEXSPI_IPED_REGION_COUNT (15)
+/* @brief FlexSPI Array Length */
+#define FSL_FEATURE_FLEXSPI_ARRAY_LEN (1)
 
 /* ADC module features */
 
@@ -433,6 +437,11 @@
 #define FSL_FEATURE_TRNG_HAS_DUAL_OSCILATORS (1)
 /* @brief TRNG supports control pin. */
 #define FSL_FEATURE_TRNG_HAS_CTRL_PIN (1)
+
+/* USART module features */
+
+/* @brief Has FIFO Receive Timeout Configuration (register FIFORXTIMEOUTCFG). */
+#define FSL_FEATURE_USART_HAS_FIFORXTIMEOUTCFG (1)
 
 /* USB module features */
 

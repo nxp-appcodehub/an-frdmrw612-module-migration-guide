@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
  * Copyright 2016-2023 NXP
+ * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -57,7 +58,7 @@ uint32_t USART_GetInstance(USART_Type *base)
 
     for (i = 0; i < (uint32_t)FSL_FEATURE_SOC_USART_COUNT; i++)
     {
-        if ((uint32_t)base == s_usartBaseAddrs[i])
+        if (MSDK_REG_SECURE_ADDR((uint32_t)base) == MSDK_REG_SECURE_ADDR(s_usartBaseAddrs[i]))
         {
             break;
         }
@@ -459,7 +460,7 @@ status_t USART_SetBaudRate(USART_Type *base, uint32_t baudrate_Bps, uint32_t src
 
         for (osrval = best_osrval; osrval >= 4U; osrval--)
         {
-            /*
+            /* 
              * Smaller values of OSR can make the sampling position within a data bit less accurate and may
              * potentially cause more noise errors or incorrect data.
              * Break if the best baudrate's diff is in the allowed error range and the osrval is below 8,

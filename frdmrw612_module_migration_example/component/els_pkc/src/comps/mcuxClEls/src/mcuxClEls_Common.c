@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
-/* Copyright 2020-2023 NXP                                                  */
+/* Copyright 2020-2024 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /** @file  mcuxClEls_Common.c
@@ -29,6 +29,16 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_GetHwVer
 {
     MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClEls_GetHwVersion);
     result->word.value = MCUXCLELS_SFR_READ(ELS_VERSION);
+    uint32_t minorVersion = result->bits.minor;
+    /* Encode in decimal representation */
+    minorVersion = (minorVersion & 0xFu) + (((minorVersion >> 4u) & 0xFu) * 10u);
+    result->bits.minor = (uint8_t)minorVersion;
+#ifdef MCUXCL_FEATURE_ELS_GET_FW_VERSION
+    uint32_t fwMinorVersion = result->bits.fw_minor;
+    /* Encode in decimal representation */
+    fwMinorVersion = (fwMinorVersion & 0xFu) + (((fwMinorVersion >> 4u) & 0xFu) * 10u);
+    result->bits.fw_minor = (uint8_t)fwMinorVersion;
+#endif // MCUXCL_FEATURE_ELS_GET_FW_VERSION
     MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClEls_GetHwVersion, MCUXCLELS_STATUS_OK);
 }
 
@@ -115,6 +125,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_GetError
     }
     else
     {
+        /* Double check, should result in addition of zero in normal case. */
+        MCUX_CSSL_SC_ADD(MCUXCLELS_GET_STATUS_FIELD(MCUXCLELS_SFR_STATUS_ELS_ERR));
+
         result = MCUXCLELS_STATUS_OK;
     }
 
@@ -157,6 +170,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_WaitForO
         // Do nothing
     }
 
+    /* Double check, should result in addition of zero in normal case. */
+    MCUX_CSSL_SC_ADD(MCUXCLELS_GET_STATUS_FIELD(MCUXCLELS_SFR_STATUS_ELS_BUSY));
+
     MCUX_CSSL_FP_FUNCTION_CALL(result, mcuxClEls_GetErrorCode(errorHandling));
 
     MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClEls_WaitForOperation, result);
@@ -184,6 +200,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_LimitedW
     {
         MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClEls_LimitedWaitForOperation, MCUXCLELS_STATUS_SW_COUNTER_EXPIRED);
     }
+
+    /* Double check, should result in addition of zero in normal case. */
+    MCUX_CSSL_SC_ADD(MCUXCLELS_SFR_BITREAD(ELS_STATUS, ELS_BUSY));
 
     MCUX_CSSL_FP_FUNCTION_CALL(result, mcuxClEls_GetErrorCode(errorHandling));
 
@@ -365,14 +384,17 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_CompareD
                                MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClEls_GetLastDmaAddress));
 
     /* Calculate the expected final address from the input */
-    uint32_t expectedFinalAddress = (uint32_t)outputStartAddress + expectedLength;
+    uint8_t* expectedFinalAddress = (uint8_t *)MCUXCL_HW_DMA_WORKAROUND(outputStartAddress) + expectedLength;
 
     /* Get the actual final address from ELS - no result check as function always returns OK */
     uint32_t finalAddress;
     MCUX_CSSL_FP_FUNCTION_CALL_VOID(mcuxClEls_GetLastDmaAddress(&finalAddress));
+    MCUX_CSSL_ANALYSIS_START_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER("Adresses are represented as integer objects when read from SFR registers")
+    uint8_t *pFinalAddress = (uint8_t *)finalAddress;
+    MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER()
 
     /* Compare the expected address to the actual one */
-    if(finalAddress != expectedFinalAddress)
+    if(pFinalAddress != expectedFinalAddress)
     {
         MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClEls_CompareDmaFinalOutputAddress, MCUXCLELS_STATUS_SW_COMPARISON_FAILED);
     }

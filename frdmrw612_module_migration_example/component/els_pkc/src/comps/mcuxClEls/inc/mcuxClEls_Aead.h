@@ -1,20 +1,20 @@
 /*--------------------------------------------------------------------------*/
-/* Copyright 2020-2023 NXP                                                  */
+/* Copyright 2020-2024 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
  * @file  mcuxClEls_Aead.h
  * @brief ELS header for Authenticated Encryption with Associated Data (AEAD).
- *
+ * 
  * This header exposes functions that enable using the ELS for Authenticated Encryption with Associated Data (AEAD).
  * The AEAD algorithm supported by ELS is AES in Galois/Counter Mode (GCM), as described in NIST Special Publication
  * 800-38D.
@@ -57,8 +57,8 @@ extern "C" {
 #define MCUXCLELS_AEAD_STATE_IN_DISABLE ((uint8_t)0x00U) ///< Set #mcuxClEls_AeadOption_t.acpsie to this value to load the GCM state from ELS
 #define MCUXCLELS_AEAD_STATE_IN_ENABLE  ((uint8_t)0x01U) ///< Set #mcuxClEls_AeadOption_t.acpsie to this value to load the GCM state from the context
 
-#define MCUXCLELS_AEAD_LASTINIT_TRUE  ((uint8_t)0x01U)  ///< Set #mcuxClEls_AeadOption_t.lastinit to this value if this is the last call to init
-#define MCUXCLELS_AEAD_LASTINIT_FALSE ((uint8_t)0x00U)  ///< Set #mcuxClEls_AeadOption_t.lastinit to this value if this is not the last call to init
+#define MCUXCLELS_AEAD_LASTINIT_TRUE  (0x01U)  ///< Set #mcuxClEls_AeadOption_t.lastinit to this value if this is the last call to init
+#define MCUXCLELS_AEAD_LASTINIT_FALSE (0x00U)  ///< Set #mcuxClEls_AeadOption_t.lastinit to this value if this is not the last call to init
 
 #define MCUXCLELS_AEAD_EXTERN_KEY ((uint8_t)0x01U)  ///< Set #mcuxClEls_AeadOption_t.extkey to this value to use an external key
 #define MCUXCLELS_AEAD_INTERN_KEY ((uint8_t)0x00U)  ///< Set #mcuxClEls_AeadOption_t.extkey to this value to use a key from the ELS keystore
@@ -192,13 +192,13 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Ini
 
 /**
  * @brief AES-GCM partial initialization
- *
+ * 
  * This is the first stage of AEAD encryption/decryption. This generates the initial context out of the IV @p pIV and the key (@p pKey or @p keyIdx).
- *
+ * 
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]      options   The AEAD command options. For more information, see #mcuxClEls_AeadOption_t.
@@ -208,9 +208,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Ini
  * @param[in]      pIV       Pointer to memory area that contains the IV
  * @param[in]      ivLength  Size of @p pIV in bytes, with padding
  * @param    [out] pAeadCtx  Pointer to the memory area that receives the AEAD context structure. Must be at least #MCUXCLELS_AEAD_CONTEXT_SIZE bytes long.
- *
+ * 
  * The properties of some parameters change with respect to selected options.
- *
+ * 
  * <dl>
  *  <dt>Parameter properties</dt>
  *
@@ -229,7 +229,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Ini
  *          <dd>This field is ignored</dd>
  *  </dl></dd>
  * </dl>
- *
+ * 
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)
  *  @return A code-flow protected error code (see @ref mcuxCsslFlowProtection). The error code can be any error code in @ref MCUXCLELS_STATUS_, see individual documentation for more information
  * @else
@@ -252,15 +252,15 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Par
 
 /**
  * @brief AES-GCM update of the Additional Authenticated Data (AAD)
- *
+ * 
  * This is the second stage of AEAD encryption/decryption. This updates the internal authentication tag with the AAD.
- *
+ * 
  * #mcuxClEls_Aead_Init_Async must have been called before calling this function.
- *
+ * 
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]      options   The AEAD command options. For more information, see #mcuxClEls_AeadOption_t.
@@ -270,9 +270,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Par
  * @param[in]      pAad      Memory area that contains the AAD
  * @param[in]      aadLength Length of the @p pAad in bytes with padding
  * @param[in, out] pAeadCtx  Pointer to the AEAD context structure. Must be at least #MCUXCLELS_AEAD_CONTEXT_SIZE bytes long.
- *
+ * 
  * The properties of some parameters change with respect to selected options.
- *
+ * 
  * <dl>
  *  <dt>Parameter properties</dt>
  *
@@ -291,7 +291,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Par
  *          <dd>This field is ignored</dd>
  *  </dl></dd>
  * </dl>
- *
+ * 
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)
  *  @return A code-flow protected error code (see @ref mcuxCsslFlowProtection). The error code can be any error code in @ref MCUXCLELS_STATUS_, see individual documentation for more information
  * @else
@@ -314,16 +314,16 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Upd
 
 /**
  * @brief AES-GCM update of the encrypted data
- *
+ * 
  * This is the third stage of AEAD encryption/decryption. This processes the given plaintext (in case of encryption)
  * or ciphertext (in case of decryption) and outputs the ciphertext (in case of encryption) or plaintext (in case of decryption).
- *
+ * 
  * #mcuxClEls_Aead_Init_Async, #mcuxClEls_Aead_UpdateAad_Async must have been called before calling this function.
  *
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]      options     The AEAD command options. For more information, see #mcuxClEls_AeadOption_t.
@@ -334,9 +334,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Upd
  * @param[in]      inputLength Size of @p pInput in bytes with padding
  * @param    [out] pOutput     Pointer to the processed data memory location
  * @param[in, out] pAeadCtx    Pointer to the AEAD context structure. Must be at least #MCUXCLELS_AEAD_CONTEXT_SIZE bytes long.
- *
+ * 
  * The properties of some parameters change with respect to selected options.
- *
+ * 
  * <dl>
  *  <dt>Parameter properties</dt>
  *
@@ -356,7 +356,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Upd
  *              In case the last block is a full block, this field has to be set to 0.</dd>
  *  </dl></dd>
  * </dl>
- *
+ * 
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)
  *  @return A code-flow protected error code (see @ref mcuxCsslFlowProtection). The error code can be any error code in @ref MCUXCLELS_STATUS_, see individual documentation for more information
  * @else
@@ -380,17 +380,17 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Upd
 
 /**
  * @brief AES-GCM final encryption/decryption
- *
+ * 
  * This is the fourth stage of AEAD encryption/decryption. This updates the authentication tag with the final data
  * length block and outputs the tag at the desired location.
- *
+ * 
  * #mcuxClEls_Aead_Init_Async, #mcuxClEls_Aead_UpdateAad_Async and #mcuxClEls_Aead_UpdateData_Async must have been called
  * before calling this function.
  *
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]      options    The AEAD command options. For more information, see #mcuxClEls_AeadOption_t.
@@ -401,9 +401,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Upd
  * @param[in]      dataLength Length of the complete plaintext/ciphertext in bytes, without padding.
  * @param    [out] pTag       Pointer where the resulting tag will be stored
  * @param[in]      pAeadCtx   Pointer to the AEAD context structure. Must be at least #MCUXCLELS_AEAD_CONTEXT_SIZE bytes long.
- *
+ * 
  * The properties of some parameters change with respect to selected options.
- *
+ * 
  * <dl>
  *  <dt>Parameter properties</dt>
  *
@@ -422,7 +422,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Upd
  *          <dd>This field is ignored</dd>
  *  </dl></dd>
  * </dl>
- *
+ * 
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)
  *  @return A code-flow protected error code (see @ref mcuxCsslFlowProtection). The error code can be any error code in @ref MCUXCLELS_STATUS_, see individual documentation for more information
  * @else
@@ -452,6 +452,6 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Aead_Fin
 
 /**
  * @}
- *
+ * 
  * @}
  */

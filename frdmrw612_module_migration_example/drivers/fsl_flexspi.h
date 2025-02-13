@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2016, Freescale Semiconductor, Inc.
- * Copyright 2016-2023 NXP
+ * Copyright 2016-2024 NXP
+ * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -24,7 +25,7 @@
 /*! @name Driver version */
 /*! @{ */
 /*! @brief FLEXSPI driver version. */
-#define FSL_FLEXSPI_DRIVER_VERSION (MAKE_VERSION(2, 6, 0))
+#define FSL_FLEXSPI_DRIVER_VERSION (MAKE_VERSION(2, 6, 2))
 /*! @} */
 
 #define FSL_FEATURE_FLEXSPI_AHB_BUFFER_COUNT FSL_FEATURE_FLEXSPI_AHB_BUFFER_COUNTn(0)
@@ -427,13 +428,7 @@ void FLEXSPI_SetFlashConfig(FLEXSPI_Type *base, flexspi_device_config_t *config,
  *
  * @param base FLEXSPI peripheral base address.
  */
-static inline void FLEXSPI_SoftwareReset(FLEXSPI_Type *base)
-{
-    base->MCR0 |= FLEXSPI_MCR0_SWRESET_MASK;
-    while (0U != (base->MCR0 & FLEXSPI_MCR0_SWRESET_MASK))
-    {
-    }
-}
+void FLEXSPI_SoftwareReset(FLEXSPI_Type *base);
 
 /*!
  * @brief Enables or disables the FLEXSPI module.
@@ -741,10 +736,10 @@ static inline void FLEXSPI_EnableAHBParallelMode(FLEXSPI_Type *base, bool enable
 #if (defined(FSL_FEATURE_FLEXSPI_HAS_AHBCR_AFLASHBASE_BIT) && FSL_FEATURE_FLEXSPI_HAS_AHBCR_AFLASHBASE_BIT)
 /*!
  * @brief Set AHB Memory-Mapped Flash base address.
- *
+ * 
  * @note The length of base address may be different for differnt instance, please refer to the reference manual.
  * @note This function should be called when FLEXSPI is in stop mode.
- *
+ * 
  * @param base FLEXSPI peripheral base address.
  * @param address AHB Memory-Mapped Flash base address.
  */

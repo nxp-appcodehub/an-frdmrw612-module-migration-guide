@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
-/* Copyright 2020-2022 NXP                                                  */
+/* Copyright 2020-2022, 2024 NXP                                            */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /** @file  mcuxClEls_GlitchDetector.c
@@ -66,7 +66,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_GlitchDe
     MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClEls_GlitchDetector_GetEventCounter);
 
     // Decode from Gray coding
-    uint8_t count8 = (uint8_t) MCUXCLELS_GET_GDET_EVTCNT_FIELD(MCUXCLELS_SFR_GDET_EVTCNT_GDET_EVTCNT);
+    uint8_t count8 = (uint8_t) (MCUXCLELS_GET_GDET_EVTCNT_FIELD(MCUXCLELS_SFR_GDET_EVTCNT_GDET_EVTCNT) & 0xffU);
     count8 ^= count8 >> 4u;
     count8 ^= count8 >> 2u;
     count8 ^= count8 >> 1u;

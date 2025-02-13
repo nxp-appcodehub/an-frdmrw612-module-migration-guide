@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
-/* Copyright 2022-2023 NXP                                                  */
+/* Copyright 2022-2024 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -26,13 +26,10 @@
 #include <mcuxClBuffer_Pointer.h>
 
 #include <mcuxCsslDataIntegrity.h>
-
+#include <mcuxCsslMemory.h>
 
 #include <mcuxClMemory_Copy.h>
-#include <internal/mcuxClMemory_Copy_Internal.h>
-#include <internal/mcuxClMemory_CopyWords_Internal.h>
 #include <mcuxClMemory_Copy_Reversed.h>
-#include <internal/mcuxClMemory_CopySecure_Internal.h>
 
 
 
@@ -53,13 +50,13 @@ extern "C" {
 
 /**
  * \brief Writes the pointer of \p bufSrc plus the \p offset in \p ppDest.
- *
+ * 
  * \param bufSrc      Input buffer
  * \param offset      Offset of the input buffer
  * \param bufCpuWa    Not used
  * \param ppDest      Pointer to the address where the result is written to
  * \param byteLength  Not used
- *
+ * 
  * \return Status of the operation.
  */
 MCUX_CSSL_FP_FUNCTION_DEF(mcuxClBuffer_inputBufferToCPU)
@@ -86,15 +83,13 @@ static inline MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClBuffer_Status_t) mcuxClBuffer_re
 {
   MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClBuffer_read);
 
+  MCUX_CSSL_ANALYSIS_START_PATTERN_SC_INTEGER_OVERFLOW()
   MCUX_CSSL_DI_EXPUNGE(memCpyParams, ((uint32_t) pDst) + ((uint32_t) bufSrc) + byteLength + offset);
-  MCUX_CSSL_FP_FUNCTION_CALL(copy_status ,mcuxClMemory_copy_int(pDst, &bufSrc[offset], byteLength));
-  if(MCUXCLMEMORY_STATUS_OK != copy_status)
-  {
-      MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_read, MCUXCLBUFFER_STATUS_FAULT);
-  }
+  MCUX_CSSL_ANALYSIS_STOP_PATTERN_SC_INTEGER_OVERFLOW()
+  MCUXCLMEMORY_FP_MEMORY_COPY(pDst, &bufSrc[offset], byteLength);
 
   MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_read, MCUXCLBUFFER_STATUS_OK,
-      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy_int)
+      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy)
       );
 }
 
@@ -112,15 +107,13 @@ static inline MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClBuffer_Status_t) mcuxClBuffer_re
 {
   MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClBuffer_read_word);
 
+  MCUX_CSSL_ANALYSIS_START_PATTERN_SC_INTEGER_OVERFLOW()
   MCUX_CSSL_DI_EXPUNGE(memCpyParams, ((uint32_t) pDst) + ((uint32_t) bufSrc) + byteLength + offset);
-  MCUX_CSSL_FP_FUNCTION_CALL(copy_status, mcuxClMemory_copy_words_int(pDst, &bufSrc[offset], byteLength));
-  if(MCUXCLMEMORY_STATUS_OK != copy_status)
-  {
-      MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_read_word, MCUXCLBUFFER_STATUS_FAULT);
-  }
+  MCUX_CSSL_ANALYSIS_STOP_PATTERN_SC_INTEGER_OVERFLOW()
+  MCUXCLMEMORY_FP_MEMORY_COPY(pDst, &bufSrc[offset], byteLength);
 
   MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_read_word, MCUXCLBUFFER_STATUS_OK,
-      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy_words_int)
+      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy)
       );
 }
 
@@ -199,15 +192,13 @@ static inline MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClBuffer_Status_t) mcuxClBuffer_wr
 {
   MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClBuffer_write);
 
+  MCUX_CSSL_ANALYSIS_START_PATTERN_SC_INTEGER_OVERFLOW()
   MCUX_CSSL_DI_EXPUNGE(memCpyParams, ((uint32_t) pSrc) + ((uint32_t) bufDst) + byteLength + offset);
-  MCUX_CSSL_FP_FUNCTION_CALL(copy_status ,mcuxClMemory_copy_int(&bufDst[offset], pSrc, byteLength));
-  if(MCUXCLMEMORY_STATUS_OK != copy_status)
-  {
-      MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_write, MCUXCLBUFFER_STATUS_FAULT);
-  }
+  MCUX_CSSL_ANALYSIS_STOP_PATTERN_SC_INTEGER_OVERFLOW()
+  MCUXCLMEMORY_FP_MEMORY_COPY(&bufDst[offset], pSrc, byteLength);
 
   MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_write, MCUXCLBUFFER_STATUS_OK,
-      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy_int)
+      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy)
       );
 }
 
@@ -225,15 +216,13 @@ static inline MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClBuffer_Status_t) mcuxClBuffer_wr
 {
   MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClBuffer_write_word);
 
+  MCUX_CSSL_ANALYSIS_START_PATTERN_SC_INTEGER_OVERFLOW()
   MCUX_CSSL_DI_EXPUNGE(memCpyParams, ((uint32_t) pSrc) + ((uint32_t) bufDst) + byteLength + offset);
-  MCUX_CSSL_FP_FUNCTION_CALL(copy_status, mcuxClMemory_copy_words_int(&bufDst[offset], pSrc, byteLength));
-  if(MCUXCLMEMORY_STATUS_OK != copy_status)
-  {
-      MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_write_word, MCUXCLBUFFER_STATUS_FAULT);
-  }
+  MCUX_CSSL_ANALYSIS_STOP_PATTERN_SC_INTEGER_OVERFLOW()
+  MCUXCLMEMORY_FP_MEMORY_COPY(&bufDst[offset], pSrc, byteLength);
 
   MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_write_word, MCUXCLBUFFER_STATUS_OK,
-      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy_words_int)
+      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy)
       );
 }
 
@@ -272,16 +261,14 @@ static inline MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClBuffer_Status_t) mcuxClBuffer_wr
 {
   MCUX_CSSL_FP_FUNCTION_ENTRY(mcuxClBuffer_write_secure);
 
+  MCUX_CSSL_ANALYSIS_START_PATTERN_SC_INTEGER_OVERFLOW()
   MCUX_CSSL_DI_EXPUNGE(memCpyParams, ((uint32_t) pSrc) + ((uint32_t) bufDst) + byteLength + offset);
-  MCUX_CSSL_FP_FUNCTION_CALL(copy_status, mcuxClMemory_copy_secure_int(&bufDst[offset], pSrc, byteLength));
+  MCUX_CSSL_ANALYSIS_STOP_PATTERN_SC_INTEGER_OVERFLOW()
 
-  if(MCUXCLMEMORY_STATUS_OK != copy_status)
-  {
-      MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_write_secure, MCUXCLBUFFER_STATUS_FAULT);
-  }
+  MCUXCLMEMORY_FP_MEMORY_COPY(&bufDst[offset], pSrc, byteLength);
 
   MCUX_CSSL_FP_FUNCTION_EXIT(mcuxClBuffer_write_secure, MCUXCLBUFFER_STATUS_OK,
-      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy_secure_int));
+      MCUX_CSSL_FP_FUNCTION_CALLED(mcuxClMemory_copy));
 }
 
 /**

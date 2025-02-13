@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2021, 2023-2024 NXP                                       */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 #include <mcuxClMemory.h>
@@ -61,11 +61,14 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy (uint8_t *pDst, uint8_t cons
     uint32_t copiedLength = 0u;
 
     MCUX_CSSL_ANALYSIS_START_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER("casting pointer to integer to check alignment.");
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
     const uint32_t srcAddress = (uint32_t) pSrc;
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
     const uint32_t dstAddress = (uint32_t) pDst;
     MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER();
 
     const uint32_t srcAddrOrLength = srcAddress | length;
+    const uint32_t minLength = (length <= bufLength) ? length : bufLength;
     if (0u == (srcAddrOrLength % WORDSIZE))  /* source address and length are both aligned. */
     {
         uint32_t temp = 0u;
@@ -73,7 +76,7 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy (uint8_t *pDst, uint8_t cons
         if (0u == (dstAddress % WORDSIZE))   /* destination address is aligned. */
         {
             /* Case A: copy word-wisely. */
-            while (((copiedLength + WORDSIZE) <= length) && ((copiedLength + WORDSIZE) <= bufLength))
+            while ((copiedLength + WORDSIZE) <= minLength)
             {
                 MCUX_CSSL_FP_LOOP_ITERATION(mcuxClMemory_copy_loop);
                 MCUX_CSSL_ANALYSIS_START_SUPPRESS_INTEGER_OVERFLOW("Caller shall provide valid buffer pSrc[] of length.")
@@ -100,7 +103,7 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy (uint8_t *pDst, uint8_t cons
 
         /* Case A: remaining byte(s) when (length < bufLength). */
         /* Case B: read word-wisely, write byte-wisely. */
-        while ((copiedLength < length) && (copiedLength < bufLength))
+        while (copiedLength < minLength)
         {
             if (0u == (copiedLength % WORDSIZE))
             {
@@ -151,7 +154,7 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy (uint8_t *pDst, uint8_t cons
         // Loop on remaining bytes.
 
         //copy unaligned bytes first, if any
-        for (; (copiedLength < length) && (copiedLength < bufLength) && (copiedLength < unalignedBytes); copiedLength++)
+        for (; (copiedLength < minLength) && (copiedLength < unalignedBytes); copiedLength++)
         {
             MCUX_CSSL_ANALYSIS_START_SUPPRESS_INTEGER_OVERFLOW("Caller shall provide valid buffers pSrc[] of length and pDst[] of bufLength.")
             *pDstX = *pSrcX;
@@ -166,7 +169,7 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy (uint8_t *pDst, uint8_t cons
         MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_POINTER_CASTING();
 
         //loop on words
-        for (; ((copiedLength + WORDSIZE) <= length) && ((copiedLength + WORDSIZE) <= bufLength); copiedLength += WORDSIZE)
+        for (; (copiedLength + WORDSIZE) <= minLength; copiedLength += WORDSIZE)
         {
             /* Volatile keyword is added to avoid any chance of optimization (i.e. full word read) */
             /* The idea is to read byte-wise from SRC to avoid unaligned word reads, but write aligned and word-wise to DST */
@@ -192,7 +195,7 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy (uint8_t *pDst, uint8_t cons
 
         pDstX = (uint8_t *) p32Dst;
         //loop on remaining bytes
-        for (; (copiedLength < length) && (copiedLength < bufLength); copiedLength++)
+        for (; (copiedLength < minLength); copiedLength++)
         {
             MCUX_CSSL_ANALYSIS_START_SUPPRESS_INTEGER_OVERFLOW("Caller shall provide valid buffers pSrc[] of length and pDst[] of bufLength.")
             *pDstX = *pSrcX;
@@ -221,17 +224,17 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_copy_reversed (uint8_t *pDst, uin
     if (pDst > pSrc)
     {
         MCUX_CSSL_ANALYSIS_START_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER("Casting pSrc and pDst to unsigned integer to calculate difference");
-        MCUX_CSSL_ANALYSIS_START_SUPPRESS_MODIFY_STRING_LITERALS("False positive: The constant string literal pSrc is not being modified");
+        MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
         diff = (uint32_t)pDst - (uint32_t)pSrc;
-        MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_MODIFY_STRING_LITERALS();
+        MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
     MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER();
     }
     else
     {
         MCUX_CSSL_ANALYSIS_START_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER("Casting pSrc and pDst to unsigned integer to calculate difference");
-        MCUX_CSSL_ANALYSIS_START_SUPPRESS_MODIFY_STRING_LITERALS("False positive: The constant string literal pSrc is not being modified");
+        MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
         diff = (uint32_t)pSrc - (uint32_t)pDst;
-        MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_MODIFY_STRING_LITERALS();
+        MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
         MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER();
     }
     MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_INTEGER_OVERFLOW()
@@ -408,20 +411,22 @@ MCUX_CSSL_FP_PROTECTED_TYPE(void) mcuxClMemory_xor(uint8_t *pDst, const uint8_t 
     MCUX_CSSL_FP_LOOP_DECL(mcuxClMemory_xor_loop);
 
     /* xor by word if aligned */
-    MCUX_CSSL_ANALYSIS_START_SUPPRESS_CAST_TO_VOIDPTR("Typecasting  pointer to integer is intentional")
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
+    MCUX_CSSL_ANALYSIS_START_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER("Typecasting pointer to integer is intentional")
     if ((remainingLen >= WORDSIZE) && (0u == ((uint32_t)pDst & (WORDSIZE - 1u)))
                 && (0u == ((uint32_t)pSrc1 & (WORDSIZE - 1u)))
                 && (0u == ((uint32_t)pSrc2 & (WORDSIZE - 1u))))
-    MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_CAST_TO_VOIDPTR()
+    MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_TYPECAST_BETWEEN_INTEGER_AND_POINTER()
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
     {
         do
         {
             MCUX_CSSL_FP_LOOP_ITERATION(mcuxClMemory_xor_loop);
-            MCUX_CSSL_ANALYSIS_START_SUPPRESS_REINTERPRET_MEMORY("pSrc1, pSrc2 and pDst are word aligned.")
+            MCUX_CSSL_ANALYSIS_START_SUPPRESS_POINTER_CASTING("pSrc1, pSrc2 and pDst are word aligned.")
             const uint32_t temp1 = *(const uint32_t *)pSrc1;
             const uint32_t temp2 = *(const uint32_t *)pSrc2;
             *(uint32_t *)pDst = temp1 ^ temp2;
-            MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_REINTERPRET_MEMORY()
+            MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_POINTER_CASTING()
 
             MCUX_CSSL_FP_LOOP_ITERATION(mcuxClMemory_xor_loop);
             pSrc1 += WORDSIZE;

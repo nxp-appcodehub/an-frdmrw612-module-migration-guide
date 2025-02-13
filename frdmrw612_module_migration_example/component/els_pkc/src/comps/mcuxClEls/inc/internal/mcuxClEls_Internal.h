@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
-/* Copyright 2020-2023 NXP                                                  */
+/* Copyright 2020-2024 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /** @file  mcuxClEls_Internal.h
@@ -18,7 +18,7 @@
 #ifndef MCUXCLELS_INTERNAL_H_
 #define MCUXCLELS_INTERNAL_H_
 
-#include <mcuxClConfig.h> // Exported features flags header
+#include <mcuxClCore_Platform.h>
 #include <platform_specific_headers.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -41,16 +41,16 @@ extern "C" {
 
 /** Asserts the correctness of the supplied parameters*/
 #define MCUXCLELS_INPUT_PARAM_CHECK(x_) if((x_)) { return MCUXCLELS_STATUS_SW_INVALID_PARAM; }
-#define MCUXCLELS_INPUT_PARAM_CHECK_PROTECTED(funcid, x_)                         \
+#define MCUXCLELS_INPUT_PARAM_CHECK_PROTECTED(funcid, x_)                        \
 do                                                                              \
 {                                                                               \
-    if ((x_))                                                                    \
+    if ((x_))                                                                   \
     {                                                                           \
         MCUX_CSSL_FP_FUNCTION_EXIT(funcid, MCUXCLELS_STATUS_SW_INVALID_PARAM);    \
     }                                                                           \
-MCUX_CSSL_ANALYSIS_START_SUPPRESS_BOOLEAN_TYPE_FOR_CONDITIONAL_EXPRESSION()      \
+MCUX_CSSL_ANALYSIS_START_PATTERN_BOOLEAN_TYPE_FOR_CONDITIONAL_EXPRESSION()       \
 } while (false)                                                                 \
-MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_BOOLEAN_TYPE_FOR_CONDITIONAL_EXPRESSION()
+MCUX_CSSL_ANALYSIS_STOP_PATTERN_BOOLEAN_TYPE_FOR_CONDITIONAL_EXPRESSION()
 
 #define ELS_CMD_BIG_ENDIAN ((uint8_t) 0x01U)    ///< ELS command option specifying big-endian byte order
 #define ELS_CMD_LITTLE_ENDIAN ((uint8_t) 0x00U) ///< ELS command option specifying little-endian byte order
@@ -60,46 +60,62 @@ MCUX_CSSL_ANALYSIS_STOP_SUPPRESS_BOOLEAN_TYPE_FOR_CONDITIONAL_EXPRESSION()
 /** Sets the variable-size input buffer from which the input 0 of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setInput0(const uint8_t *pInput, uint32_t inputSize)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC0,     (uint32_t) pInput);
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
+    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC0,     MCUXCL_HW_DMA_WORKAROUND(pInput));
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
     MCUXCLELS_SFR_WRITE(ELS_DMA_SRC0_LEN, inputSize);
 }
 
 /** Sets the fixed-size input buffer from which the input 0 of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setInput0_fixedSize(const uint8_t *pInput)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC0, (uint32_t) pInput);
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
+    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC0, MCUXCL_HW_DMA_WORKAROUND(pInput));
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
 }
 
 /** Sets the fixed-size input buffer from which the input 1 of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setInput1_fixedSize(const uint8_t *pInput)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC1, (uint32_t) pInput);
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
+    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC1, MCUXCL_HW_DMA_WORKAROUND(pInput));
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
 }
 
 /** Sets the variable-size input buffer from which the input 2 of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setInput2(const uint8_t *pInput, uint32_t inputSize)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC2,     (uint32_t) pInput);
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
+    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC2,     MCUXCL_HW_DMA_WORKAROUND(pInput));
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
     MCUXCLELS_SFR_WRITE(ELS_DMA_SRC2_LEN, inputSize);
 }
 
 /** Sets the fixed-size input buffer from which the input 2 of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setInput2_fixedSize(const uint8_t * pInput)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC2, (uint32_t) pInput);
+    MCUX_CSSL_ANALYSIS_START_PATTERN_STRING_NOT_MODIFIED()
+    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC2, MCUXCL_HW_DMA_WORKAROUND(pInput));
+    MCUX_CSSL_ANALYSIS_STOP_PATTERN_STRING_NOT_MODIFIED()
+}
+
+/** Sets the fixed-size input offset from which the input 2 of the ELS operation will be transferred via DMA. */
+static inline void mcuxClEls_setInput2Offset_fixedSize(uint32_t inputOffset)
+{
+    MCUXCLELS_SFR_WRITE(ELS_DMA_SRC2, inputOffset);
 }
 
 /** Sets the variable-size output buffer to which the result of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setOutput(uint8_t *pOutput, uint32_t outputSize)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_RES0,     (uint32_t) pOutput);
+    MCUXCLELS_SFR_WRITE(ELS_DMA_RES0,     MCUXCL_HW_DMA_WORKAROUND(pOutput));
     MCUXCLELS_SFR_WRITE(ELS_DMA_RES0_LEN, outputSize);
 }
 
 /** Sets the output buffer to which the result of the ELS operation will be transferred via DMA. */
 static inline void mcuxClEls_setOutput_fixedSize(uint8_t *pOutput)
 {
-    MCUXCLELS_SFR_WRITE(ELS_DMA_RES0, (uint32_t) pOutput);
+    MCUXCLELS_SFR_WRITE(ELS_DMA_RES0, MCUXCL_HW_DMA_WORKAROUND(pOutput));
 }
 
 /** Sets the ELS keystore index 0, for commands that access a single key. */
@@ -354,7 +370,7 @@ MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_handleKeyExportError(u
 /** read from ELS PRNG SFR. */
 static inline uint32_t mcuxClEls_readPrngOut(void)
 {
-    return MCUXCLELS_SFR_READ(ELS_PRNG_DATOUT);
+  return MCUXCLELS_SFR_READ(ELS_PRNG_DATOUT);
 }
 
 #ifdef __cplusplus

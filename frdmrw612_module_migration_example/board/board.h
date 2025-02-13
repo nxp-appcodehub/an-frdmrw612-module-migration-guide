@@ -1,5 +1,6 @@
 /*
  * Copyright 2021-2024 NXP
+ * All rights reserved.
  *
  * SPDX-License-Identifier: BSD-3-Clause
  */
@@ -23,8 +24,9 @@
 #define BOARD_AzureWave_AW_CU598  (6)
 #define BOARD_AzureWave_AW_CU570  (7)
 #define BOARD_Murata_Type2FR      (8)
-#define BOARD_FRDM_RW612          (9)
-#define BOARD_CUSTOM			  (10)
+#define BOARD_CEL_CMP4612         (9)
+#define BOARD_FRDM_RW612          (10)
+#define BOARD_CUSTOM			  (11)
 
 /* NOR Flash options */
 #define W25Q512JVFIQ      (0)
@@ -33,6 +35,7 @@
 #define MX25U6432FBBI02   (3)
 #define FM25M4AA_1AIBD    (4)
 #define FM25M64C_13IBE    (5)
+#define W25Q64JVZPIQ      (6)
 
 /* pSRAM Options */
 #define APS6404L_3SQN (0)
@@ -77,6 +80,10 @@
 #elif BOARD == BOARD_Murata_Type2FR
 #define BOARD_NAME "Murata Type2FR"
 #define BOARD_FLASH W25Q128JWYIQ
+#define BOARD_PSRAM
+#elif BOARD == BOARD_CEL_CMP4612
+#define BOARD_NAME "CEL CMP4612"
+#define BOARD_FLASH W25Q64JVZPIQ
 #define BOARD_PSRAM
 #elif BOARD == BOARD_FRDM_RW612
 #define BOARD_NAME "FRDM-RW612"
@@ -159,7 +166,7 @@
 #endif
 #define BOARD_SW2_GPIO_PORT 0U
 #ifndef BOARD_SW2_GPIO_PIN
-#define BOARD_SW2_GPIO_PIN 25U
+#define BOARD_SW2_GPIO_PIN 11U
 #endif
 
 #define BOARD_ENET0_PHY_ADDRESS (0x02U)

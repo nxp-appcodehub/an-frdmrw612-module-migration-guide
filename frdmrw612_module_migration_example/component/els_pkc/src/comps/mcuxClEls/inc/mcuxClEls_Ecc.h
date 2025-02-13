@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -90,11 +90,11 @@ extern "C" {
  * @ingroup mcuxClEls_Ecc_Macros
  * @{
  */
-#define MCUXCLELS_ECC_HASHED                     ((uint32_t) 0U) ///< Set this option at #mcuxClEls_EccSignOption_t.echashchl or #mcuxClEls_EccVerifyOption_t.echashchl to specify input is the hash of the message
-#define MCUXCLELS_ECC_NOT_HASHED                 ((uint32_t) 1U) ///< Set this option at #mcuxClEls_EccSignOption_t.echashchl or #mcuxClEls_EccVerifyOption_t.echashchl to specify input is the plain message
+#define MCUXCLELS_ECC_HASHED                     (0U) ///< Set this option at #mcuxClEls_EccSignOption_t.echashchl or #mcuxClEls_EccVerifyOption_t.echashchl to specify input is the hash of the message
+#define MCUXCLELS_ECC_NOT_HASHED                 (1U) ///< Set this option at #mcuxClEls_EccSignOption_t.echashchl or #mcuxClEls_EccVerifyOption_t.echashchl to specify input is the plain message
 
-#define MCUXCLELS_ECC_RTF                        ((uint32_t) 1U) ///< Set this option at #mcuxClEls_EccSignOption_t.signrtf to include the RTF in the signature
-#define MCUXCLELS_ECC_NO_RTF                     ((uint32_t) 0U) ///< Set this option at #mcuxClEls_EccSignOption_t.signrtf to not include the RTF in the signature
+#define MCUXCLELS_ECC_RTF                        (1U) ///< Set this option at #mcuxClEls_EccSignOption_t.signrtf to include the RTF in the signature
+#define MCUXCLELS_ECC_NO_RTF                     (0U) ///< Set this option at #mcuxClEls_EccSignOption_t.signrtf to not include the RTF in the signature
 /**
  * @}
  */
@@ -280,7 +280,7 @@ typedef union
 
 /**
  * @brief Generates an ECC key pair on the NIST P-256 curve.
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_HIGH. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  *
  * Call #mcuxClEls_WaitForOperation to complete the operation.
@@ -328,7 +328,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_EccKeyGe
 
 /**
  * @brief Performs a Diffie-Hellman key exchange with an internal ECC private key and an external ECC public key.
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  *
  * Call #mcuxClEls_WaitForOperation to complete the operation.
@@ -368,7 +368,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_EccKeyEx
 #ifdef MCUXCL_FEATURE_ELS_PUK_INTERNAL
 /**
  * @brief Performs a Diffie-Hellman key exchange with an internal ECC private key and an internal ECC public key.
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  *
  * Call #mcuxClEls_WaitForOperation to complete the operation.
@@ -406,9 +406,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_EccKeyEx
  * @if MCUXCL_FEATURE_ELS_SHA_DIRECT
  * No matter the value of @p options.echashchl, it must be ensured that SHA-Direct mode is disabled when calling this function (see #mcuxClEls_ShaDirect_Disable).
  * @endif
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_HIGH. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]  options            The command options. For more information, see #mcuxClEls_EccSignOption_t.
@@ -460,9 +460,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_EccSign_
  * @if MCUXCL_FEATURE_ELS_SHA_DIRECT
  * No matter the value of @p options.echashchl, it must be ensured that SHA-Direct mode is disabled when calling this function (see #mcuxClEls_ShaDirect_Disable).
  * @endif
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]  options             The command options. For more information, see #mcuxClEls_EccVerifyOption_t.
@@ -523,9 +523,9 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_EccVerif
  * @if MCUXCL_FEATURE_ELS_SHA_DIRECT
  * No matter the value of @p options.echashchl, it must be ensured that SHA-Direct mode is disabled when calling this function (see #mcuxClEls_ShaDirect_Disable).
  * @endif
- *
+ * 
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]  options             The command options. For more information, see #mcuxClEls_EccVerifyOption_t.

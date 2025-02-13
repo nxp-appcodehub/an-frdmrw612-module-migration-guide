@@ -26,11 +26,11 @@ Using off-the-shelf wireless modules based on the RW61x streamlines the product 
 
 Firmware developers working on connected products can start their applications in the FRDM-RW612 board and at some point in the development process, migrate their projects to a custom board based on a module.
 
-This document outlines the changes required to migrate an application from the FRDM-RW612 board to a module-based board. 
+This document outlines the changes required to migrate an application from the FRDM-RW612 board to a module-based board.
 
 * [Chapter 1](#step1) lists the different components affected by the migration. For example, memories, I/O, clock, and power. This chapter also provides insights on the required changes for the new module-based board.
 * [Chapter 2](#step2) lists some of the modules based on the RW61x SoCs. The chapter also provides a comparison of the pin configurations between the FRDM-RW612 and the different modules.
-* Also, in [Chapter 3](#step3) provides the source code with memory configurations for the modules. 
+* Also, in [Chapter 3](#step3) provides the source code with memory configurations for the modules.
 * [Chapter 4](#step4) lists the instructions to use the companion software.
 
 
@@ -49,6 +49,9 @@ The following is the list of modules based on the RW612 SoC covered in this appl
   <dd>AW-CU570</dd>
 <dt>Murata</dt>
   <dd>Type 2FR </dd>
+<dt>CEL</dt>
+  <dd>CMP4612-2-R</dd>
+  <dd>CMP4612-2C-R</dd>
 </dl>
 
 #### Boards: FRDM-RW612
@@ -65,7 +68,8 @@ The following is the list of modules based on the RW612 SoC covered in this appl
 2. [Migrating to specific modules](#step2)
    1. [u-Blox IRIS-W10](#step2.1)
    2. [AzureWave](#step2.2)
-   9. [Murata Type 2FR ](#step2.9)
+   3. [Murata Type 2FR](#step2.3)
+   4. [CEL CMP4612](#step2.4)
 3. [Software](#step3)
 4. [Setup](#step4)
 5. [Results](#step5)
@@ -506,7 +510,7 @@ The following table presents a comparison between the FRDM-RW612 and AW-CU570/AW
 |USB_ID|I|USB OTG Logic|USB_IDPIN|USB OTG ID pin|
 |PDn|I|SW1(PDn / RESET)|RESETn|Full Power down (input) (active low)|
 
-### 2.3 Murata Type 2FR<a name="step2.9"></a>
+### 2.3 Murata Type 2FR<a name="step2.3"></a>
 
 The [Type 2FR module](https://www.murata.com/en-us/products/connectivitymodule/wi-fi-bluetooth/overview/lineup/type2fr) by Murata, comes with the RW612 SoC along with an onboard W25Q128JWYIQ 16 MB NOR flash memory and no pSRAM.
 
@@ -592,10 +596,104 @@ The following table presents a comparison between the FRDM-RW612 and Type 2FR pi
 |USB_ID|I|USB OTG Logic|USB_ID|USB_ID I/O |
 |PDn|I|SW1(PDn/RESET)|PDn|PDN I/O |
 
+### 2.4 CEL CMP4612 <a name="step2.4"></a>
+
+CEL (California Eastern Laboratories) offers their [CMP4612](https://www.cel.com/product/cmp4612/) modules based on the RW612 SoC:
+
+| Module model | Characteristic |
+|-|-|
+|CMP4612-2|PCB trace antenna|
+|CMP4612-2C|Antenna connector|
+
+The CMP4612 modules, come with the RW612 SoC along with an onboard W25Q64JVZPIQ 8 MB NOR flash memory and no internal pSRAM.
+
+For support contact [CEL](www.cel.com) at wirelessmodules@cel.com
+
+Following table list the pins assingments for this module:
+
+| Module Pin No. | Pin | Name Notes |
+|-|-|-|
+| 1 | GPIO45 | ADC0 channel 3 |
+| 2 | GPIO52 | |
+| 3 | GPIO44 | ADC0 channel 2 / DAC channel A |
+| 4 | GPIO55 | ENET RMII interrupt / Flexcomm 14 |
+| 5 | GPIO43 | ADC0 channel 1 / DAC channel B |
+| 6 | GPIO60 | ENET_TX_EN / RMII valid nibbles indicator output |
+| 7 | GPIO42 | ADC0 channel 0 |
+| 8 | GPIO58 | RMII Ethernet TX data low byte / Flexcomm 14 |
+| 9 | GPIO46 | ADC0 channel 4 |
+| 10 | GPIO59 | RMII Ethernet TX data high byte |
+| 11 | GPIO47 | ADC0 channel 5 |
+| 12 | RF_CNTL2 | FLOAT = JTAG / PD = SWD |
+| 13 | GPIO49 | ADC 0 / ADC 1 channel 7 |
+| 14 | GPIO57 | ENET_MDIO / RMII Ethernet PHY and MAC control Synchronous with ENET_MDC / Fexcomm 14 |
+| 15 | GPIO48 | ADC 0 / ADC 1 channel 6 |
+| 16 | GPIO56 | ENET_MDC / Output clock for RMII Ethernet MDIO / Flexcomm 14 |
+| 17 | GPIO8 | JTAG_TDI / Flexcomm 1 |
+| 18 | GPIO62 | ENET_RX_EN / RMII valid nibbles – assert output |
+| 19 | GPIO5 | Flexcomm 0 |
+| 20 | GPIO63 | ENET_RX_ER / RMII has invalid frames – assert input |
+| 21 | GPIO7 | JTAG_TMS / Flexcomm 1 |
+| 22 | GPIO61 | ENET_TIMER1 / RMII Ethernet timer 1 |
+| 23 | EXT_REQ | Boot configuration |
+| 24 | GPIO25 | ENET_CLK / RMII Ethernet clock / Flexcomm 3 |
+| 25 | VDD_3V3 | 3.3V input |
+| 26 | GPIO22 | XTAL32K_IN / ENET_RX_DATA0 / 32 kHz crystal input or RMII Ethernet RX data low byte |
+| 27 | GND Ground |  |
+| 29 | EXT_GNT | Boot configuration |
+| 31 | EXT_PRI | Boot configuration |
+| 32 | GPIO23 | XTAL32K_OUT / ENET_RX_DATA1 / 32 kHz crystal input or RMII Ethernet RX data high byte |
+| 33 | GPIO53 | Flexcomm 14 |
+| 34 | GPIO24 | Flexcomm 3 |
+| 35 | GPIO50 |  |
+| 36 | GPIO27 |  |
+| 37 | GPIO3 | Flexcomm 0 |
+| 38 | GPIO26 | Flexcomm 3 |
+| 39 | PDN | Active low reset |
+| 40 | EXT_FREQ | Boot configuration |
+| 41 | USB_DP | USB differential pair (positive) |
+| 42 | GPIO12 |  |
+| 43 | USB_DM | USB differential pair (negative) |
+| 44 | GPIO2 | Flexcomm 0 |
+| 45 | USB_VBUS | USB bus voltage |
+| 46 | GPIO4 | Flexcomm 0 |
+| 47 | USB_ID | USB host/peripheral role ID |
+| 49 | GND | Ground |
+| 51 | GPIO36 | QSPI_SRAM_SSL0 / SRAM slave select 0 |
+| 52 | GPIO51 |  |
+| 53 | GPIO35 | QSPI_SRAM_CLK0 / SRAM input/output clock |
+| 54 | GPIO54 | Flexcomm 14 |
+| 55 | GPIO39 | QSPI_SRAM_D1 / SRAM data bit 1 |
+| 56 | GPIO13 | SWCLK / Flexcomm 2 |
+| 57 | GPIO40 | QSPI_SRAM_D2 / SRAM data bit 2 |
+| 58 | GPIO29 | RESERVED |
+| 59 | GPIO41 | QSPI_SRAM_D3 / SRAM data bit 3 |
+| 60 | GPIO21 | ENET_RST RMII Ethernet reset |
+| 61 | GPIO37 | QSPI_SRAM_DQS / SRAM input/output data strobe |
+| 62 | GPIO15 | SDIO_CLK / SDIO clock input / Flexcomm 2 |
+| 63 | GPIO38 | QSPI_SRAM_D0 / SRAM data bit 0 |
+| 64 | GPIO16 | SDIO_DAT3 / SDIO data input/output 3 / Flexcomm 2 |
+| 65 | GPIO0 | Flexcomm 0 |
+| 66 | GPIO17 | SDIO_CMD / SDIO command line / Flexcomm 2 |
+| 67 | GPIO11 |  |
+| 68 | GPIO20 | SDIO_DAT1 / SDIO data input/output 1 / Flexcomm 3 |
+| 69 | GPIO6 | JTAG_TCK / Flexcomm 1 |
+| 70 | GPIO18 | SDIO_DAT2 / SDIO data input/output 2 |
+| 71 | GPIO9 | JTAG_TDO / Flexcomm 1 |
+| 72 | GPIO19 | SDIO_DAT0 / SDIO data input/output 0 / Flexcomm 3 |
+| 73 | GPIO10 | JTAG_TRSTN / Flexcomm 1 |
+| 74 | GPIO1 |  |
+| 75 | VDD_VIO | I/O voltage input (3.3/1.8V) |
+| 76 | GPIO14 | SWDIO / Flexcomm 2 |
+| 77 | GND | Ground |
+
+Pin numbers 28, 30, 48 and 50 have been deliberately omitted.
+
+
 ## 3. Software<a name="step3"></a>
 
-- MCUXpresso IDE v11.9.1
-- FRDM-RW612 SDK (SDK\_2\_16\_0\_FRDM-RW612)
+- MCUXpresso IDE v24.12.148
+- FRDM-RW612 SDK (SDK\_24\_12\_00\_FRDM-RW612)
 - [RW612 modules migration demo project](frdmrw612_module_migration_example)
 
 The [RW612 modules migration demo project](frdmrw612_module_migration_example) includes flash configuration files (flash_config and mflash) for the different modules listed above.
@@ -603,8 +701,8 @@ The [RW612 modules migration demo project](frdmrw612_module_migration_example) i
 ## 4. Setup<a name="step4"></a>
 
 ### 4.1 Step 1: Download and Install required Software
-- Download [MCUXpresso IDE 2.19.0 or later](https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-integrated-development-environment-ide:MCUXpresso-IDE?&tid=vanMCUXPRESSO/IDE). Run the downloaded executable and follow the onscreen instructions.
-- Download and install [MCUXpresso SDK 2.16.0 for FRDM-RW612](https://mcuxpresso.nxp.com/en/builder?hw=FRDM-RW612). For details, see [this page](https://community.nxp.com/t5/MCUXpresso-IDE-Knowledge-Base/Importing-an-MCUXpresso-SDK-into-MCUXpresso-IDE/ta-p/1101175).
+- Download [MCUXpresso IDE 24.12.148 or later](https://www.nxp.com/design/design-center/software/development-software/mcuxpresso-software-and-tools-/mcuxpresso-integrated-development-environment-ide:MCUXpresso-IDE?&tid=vanMCUXPRESSO/IDE). Run the downloaded executable and follow the onscreen instructions.
+- Download and install [MCUXpresso SDK 24.12.00 for FRDM-RW612](https://mcuxpresso.nxp.com/en/builder?hw=FRDM-RW612). For details, see [this page](https://community.nxp.com/t5/MCUXpresso-IDE-Knowledge-Base/Importing-an-MCUXpresso-SDK-into-MCUXpresso-IDE/ta-p/1101175).
 - Download and Install your preferred terminal program.
 
 ### 4.2 Step 2: Clone the APP-CODE-HUB/an-frdmrw612-module-migration-guide
@@ -642,8 +740,9 @@ These are the available options for _BOARD_:
 #define BOARD_AzureWave_AW_CU598  (6)
 #define BOARD_AzureWave_AW_CU570  (7)
 #define BOARD_Murata_Type2FR      (8)
-#define BOARD_FRDM_RW612          (9)
-#define BOARD_CUSTOM              (10)
+#define BOARD_CEL_CMP4612         (9)
+#define BOARD_FRDM_RW612          (10)
+#define BOARD_CUSTOM              (11)
 ```
 
 Select the one that matches with your module or board's memory configuration.
@@ -721,7 +820,8 @@ Questions regarding the content/correctness of this example can be entered as Is
 ## 7. Release Notes<a name="step7"></a>
 | Version | Description / Update                           | Date                        |
 |:-------:|------------------------------------------------|----------------------------:|
-| 1.0     | Initial release on Application Code Hub        | September 23, 2024 |
+| 1.0     | Initial release on Application Code Hub        | September 23, 2024          |
+| 1.1     | Added CEL modules. Updated to SDK 24.12.00.    | February 13, 2025          |
 
 <small>
 <b>Trademarks and Service Marks</b>: There are a number of proprietary logos, service marks, trademarks, slogans, and product designations ("Marks") found on this Site. By making the Marks available on this Site, NXP is not granting you a license to use them in any fashion. Access to this Site does not confer upon you any license to the Marks under any of NXP or any third party's intellectual property rights. While NXP encourages others to link to our URL, no NXP trademark or service mark may be used as a hyperlink without NXP’s prior written permission. The following Marks are the property of NXP. This list is not comprehensive; the absence of a Mark from the list does not constitute a waiver of intellectual property rights established by NXP in a Mark.

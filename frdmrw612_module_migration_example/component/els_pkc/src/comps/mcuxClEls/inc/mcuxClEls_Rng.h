@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -105,7 +105,7 @@ extern "C" {
  *           #MCUXCLELS_RNG_DRBG_TEST_EXTRACT_OUTPUT_MAX_SIZE bytes. The size must be a multiple of 4.</dd>
  *   </dl></dd>
  * </dl>
- *
+ * 
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)
  *  @return A code-flow protected error code (see @ref mcuxCsslFlowProtection). The error code can be any error code in @ref MCUXCLELS_STATUS_, see individual documentation for more information
  * @else
@@ -125,7 +125,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Rng_Drbg
 /**
  * @brief Writes 32 bytes of raw random data from the ELS TRNG to the given buffer.
  *
- * This function fills a buffer with raw (unprocessed) random values from the TRNG.
+ * This function fills a buffer with raw (unprocessed) random values from the TRNG. 
  *
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
@@ -404,7 +404,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Prng_Get
  * The function internally disables ELS interrupts before (potentially) running the iterative seeding process and restores
  * the original ELS interrupt enable flags afterwards, before returning to the caller. This allows to properly use the function
  * in an ELS interrupt handler to reseed the ELS DRBG when needed.
- *
+ * 
  * @param[in]  pDtrngConfig  Pointer to the beginning of the memory area which contains the ELS DTRNG config
  *
  * @if (MCUXCL_FEATURE_CSSL_FP_USE_SECURE_COUNTER && MCUXCL_FEATURE_CSSL_SC_USE_SW_LOCAL)

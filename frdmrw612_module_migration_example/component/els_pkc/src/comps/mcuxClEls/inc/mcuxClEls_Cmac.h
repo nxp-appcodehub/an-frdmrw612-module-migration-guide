@@ -1,14 +1,14 @@
 /*--------------------------------------------------------------------------*/
 /* Copyright 2020-2023 NXP                                                  */
 /*                                                                          */
-/* NXP Proprietary. This software is owned or controlled by NXP and may    */
+/* NXP Proprietary. This software is owned or controlled by NXP and may     */
 /* only be used strictly in accordance with the applicable license terms.   */
 /* By expressly accepting such terms or by downloading, installing,         */
 /* activating and/or otherwise using the software, you are agreeing that    */
 /* you have read, and that you agree to comply with and are bound by, such  */
-/* license terms. If you do not agree to be bound by the applicable license */
-/* terms, then you may not retain, install, activate or otherwise use the   */
-/* software.                                                                */
+/* license terms.  If you do not agree to be bound by the applicable        */
+/* license terms, then you may not retain, install, activate or otherwise   */
+/* use the software.                                                        */
 /*--------------------------------------------------------------------------*/
 
 /**
@@ -120,11 +120,11 @@ typedef union
  */
 /**
  * @brief Performs CMAC with AES-128 or AES-256
- *
+ * 
  * @if ELS_AES_WITH_SIDE_CHANNEL_PROTECTION
  * Before execution, ELS will wait until #mcuxClEls_HwState_t.drbgentlvl == #MCUXCLELS_STATUS_DRBGENTLVL_LOW. This can lead to a delay if the DRBG is in a state with less security strength at the time of the call.
  * @endif
- *
+ * 
  * Call #mcuxClEls_WaitForOperation to complete the operation.
  *
  * @param[in]      options     The command options. For more information, see #mcuxClEls_CmacOption_t.
@@ -134,7 +134,7 @@ typedef union
  * @param[in]      pInput      Pointer to a memory location which contains the data, padded via SP 800-38b standard, to be authenticated
  * @param[in]      inputLength Size of @p pInput in bytes before padding
  * @param[in, out] pMac        Pointer to the CMAC command state input/output. See the parameter properties section in the function description.
- *
+ * 
  * The properties of some parameters change with respect to selected options.
  *
  * <dl>
@@ -148,13 +148,13 @@ typedef union
  *          <dd>@p pKey is ignored.
  *
  *          @p keyLength is ignored.</dd>
- *
+ * 
  *      <dt>(@p options.finalize == #MCUXCLELS_CMAC_FINALIZE_DISABLE)</dt>
  *          <dd>The intermediate state is written to @p pMac. </dd>
- *
+ * 
  *      <dt>@p options.finalize == #MCUXCLELS_CMAC_FINALIZE_ENABLE</dt>
  *          <dd>The resulting MAC is written to @p pMac.
- *
+ * 
  *          @p options.soe is ignored.</dd>
  *  </dl></dd>
  * </dl>
@@ -174,7 +174,7 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Cmac_Asy
     uint8_t const * pKey,
     size_t keyLength,
     uint8_t const * pInput,
-    size_t inputLength,
+    size_t inputLength, 
     uint8_t * pMac
     );
 
@@ -186,6 +186,6 @@ MCUXCLELS_API MCUX_CSSL_FP_PROTECTED_TYPE(mcuxClEls_Status_t) mcuxClEls_Cmac_Asy
 
 /**
  * @}
- *
+ * 
  * @}
  */

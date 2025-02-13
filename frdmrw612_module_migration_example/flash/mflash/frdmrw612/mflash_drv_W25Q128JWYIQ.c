@@ -327,7 +327,7 @@ static status_t flexspi_nor_read_data(FLEXSPI_Type *base, uint32_t startAddress,
     flashXfer.dataSize      = length;
 
     status = FLEXSPI_TransferBlocking(base, &flashXfer);
-    
+
     if(status == kStatus_Success)
     {
       status = flexspi_nor_wait_bus_busy(base);
